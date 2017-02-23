@@ -1,6 +1,20 @@
 body {
 }
 
+.bg-image {
+    position: absolute;
+    top:0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.5;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: -1;
+    display: none;
+}
+
 a .glyphicon {
 	opacity: .4;
 	margin: 0 3px;
@@ -28,6 +42,9 @@ a:hover .glyphicon  {
 	color: #666;
 }
 
+#goals {
+    opacity: 0.8;
+}
 .panel-category {
 	cursor: pointer;
 }
@@ -129,8 +146,13 @@ a:hover .glyphicon  {
     box-shadow: none;
     border-radius: 0;
     color: #d9534f;
+    background-color: rgba(0,0,0,0.3)
 }
 
 #credentials-error {
     display: none;
+}
+
+#create-buttons {
+    opacity: 0.7;
 }
