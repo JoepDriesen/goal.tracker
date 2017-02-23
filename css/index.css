@@ -1,0 +1,136 @@
+body {
+}
+
+a .glyphicon {
+	opacity: .4;
+	margin: 0 3px;
+	transition: opacity .3s ease;
+}
+a:hover .glyphicon  {
+	opacity: .8;
+}
+
+.template {
+	display: none !important;
+}
+
+.btn-up-down {
+	margin: 0 5px;
+}
+
+.btn-up-down a {
+	font-size: 0.5em;
+	clear: both;
+}
+
+.panel-title > a,
+.panel-title > div > a {
+	color: #666;
+}
+
+.panel-category {
+	cursor: pointer;
+}
+
+.list-group-item {
+	transition: background .3s ease;
+}
+.list-group-submenu .list-group-item:nth-child(1) {
+  margin-top: 1px;
+}
+.list-group-submenu .list-group-item {
+	padding-left: 50px;
+	background-color: #f8f8f8 !important;
+}
+.list-group-subsubmenu .list-group-item {
+	padding-left: 85px;
+	background-color: #fff !important;
+}
+.list-group-item.success {
+	background-color: #4caf50!important;
+	border-color: #4caf50!important;
+	color: #fff !important;
+	opacity: 0.6;
+}
+.list-group-item .progress {
+	float: right;
+    border-radius: 3px;
+    height: 24px;
+    margin: 0;
+    width: 100%;
+}
+.list-group-item span.pull-right,
+.list-group-item a.goal-status {
+	font-weight: bold;
+	width: 100px;
+	text-align: right;
+}
+.list-group-item  a.btn-goal {
+	text-decoration: none !important;
+	margin: -1px;
+	opacity: 0;
+}
+.list-group-item:hover a.btn-goal {
+	opacity: 1;
+}
+.list-group-item a.goal-status {
+    color: #666;
+    text-decoration: none !important;
+    cursor: pointer;
+}
+.list-group-item.success a.goal-status,
+.list-group-item.success a.btn-goal {
+    color: #fff;
+}
+.list-group-item .btn-up-down {
+	margin: 1px 5px 0 10px;
+}
+
+.list-group-item:hover {
+    background-color: #f0f0f0 !important;
+}
+.list-group-item:focus {
+    background-color: #fff !important;
+    outline: none;
+}
+.list-group-submenu .list-group-item:hover {
+    background-color: #f0f0f0 !important;
+}
+.list-group-submenu .list-group-item:focus {
+    background-color: #f8f8f8 !important;
+}
+.list-group-subsubmenu .list-group-item:hover {
+    background-color: #f0f0f0 !important;
+}
+.list-group-subsubmenu .list-group-item:focus {
+    background-color: #fff !important;
+}
+
+.list-group-item.success:hover {
+    background-color: #439a46 !important;
+}
+
+.progress-wrapper {
+	width: 50%;
+}
+.progress-wrapper.double .progress {
+	clear: right;
+	margin: -13px 0 15px;
+}
+
+#clear-credentials {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#clear-credentials .btn {
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    color: #d9534f;
+}
+
+#credentials-error {
+    display: none;
+}
