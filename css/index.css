@@ -1,5 +1,6 @@
 body {
     overflow-y: scroll;
+    padding-bottom: 20px;
 }
 
 .bg-image {
@@ -44,7 +45,7 @@ a:hover .glyphicon  {
 }
 
 #goals {
-    opacity: 0.8;
+    opacity: 0.9;
 }
 .panel-category {
 	cursor: pointer;
