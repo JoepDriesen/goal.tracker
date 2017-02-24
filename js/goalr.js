@@ -273,7 +273,7 @@ function get_key( cb ) {
 	
 $( function() {
     
-    $( '.bg-image' ).css( 'background-image', 'url("img/' + parseInt( Math.floor( Math.random() * 17 ) ) + '.jpg")' );
+    $( '.bg-image' ).css( 'background-image', 'url("img/' + parseInt( Math.floor( Math.random() * 12 ) ) + '.jpg")' );
     $( '.bg-image' ).fadeIn( 1000 );
     
     $( '#input-modal' ).on( 'shown.bs.modal', function() {
