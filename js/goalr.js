@@ -6,6 +6,10 @@ function esp(event) {
 	if(event.stopPropagation){event.stopPropagation();}event.cancelBubble=true;
 }
 
+function date_diff( d1, d2 ) {
+    return Math.floor( ( d2 - d1 ) / ( 24 * 60 * 60 * 1000 ) );
+}
+
 
 function sort_ordinal( a, b ) {
 
@@ -89,11 +93,13 @@ function create_goal() {
     $( '#modallabel-create-goal' ).text( 'Create New Goal' );
     $( '#updating-goal-id' ).val( '' );
     $( '#input-goal-name' ).val( '' );
-    $( '#input-goal-deadline' ).val( '' );
     $( '#input-goal-category' ).val( '' ).change();
     $( '#input-goal-type' ).val( 'boolean' ).change();
     $( '#input-goal-parent' ).val( '' ).change();
     $( '#input-goal-ordinal' ).val( '-1' );
+    $( '#input-goal-max-value' ).val( '' );
+    $( '#input-goal-date-1' ).val( '' );
+    $( '#input-goal-date-2' ).val( '' );
     $( '#btn-create-goal' ).text( 'Create' );
 
     $( '#modal-create-goal' ).modal( 'show' );
@@ -136,11 +142,13 @@ function update_goal( goal_id ) {
     $( '#modallabel-create-goal' ).text( 'Update Goal' );
     $( '#updating-goal-id' ).val( goal_id );
     $( '#input-goal-name' ).val( goal.json.name );
-    $( '#input-goal-deadline' ).val( goal.json.deadline );
     $( '#input-goal-category' ).val( goal.json.category ).change();
     $( '#input-goal-type' ).val( goal.json.type ).change();
     $( '#input-goal-parent' ).val( goal.json.parent ).change();
     $( '#input-goal-ordinal' ).val( goal.json.ordinal );
+    $( '#input-goal-max-value' ).val( goal.json.max_value );
+    $( '#input-goal-date-1' ).val( goal.json.date1 );
+    $( '#input-goal-date-2' ).val( goal.json.date2 );
     $( '#btn-create-goal' ).text( 'Update' );
 
     $( '#modal-create-goal' ).modal( 'show' );
@@ -153,7 +161,6 @@ function update_cumul_values( goal_id ) {
 
     $( '#updating-cumul-goal-id' ).val( goal_id );
     $( '#input-cumul-current-value' ).val( goal.json.current_value );
-    $( '#input-cumul-max-value' ).val( goal.json.max_value );
 
     $( '#modal-update-cumul-values' ).modal( 'show' );
     
@@ -178,6 +185,18 @@ function update_perc_values( goal_id ) {
     $( '#input-perc-current-value' ).val( goal.json.current_value );
 
     $( '#modal-update-perc-values' ).modal( 'show' );
+    
+}
+
+function update_cd_values( goal_id ) {
+
+    var goal = goal_dict[ goal_id ];
+
+    $( '#updating-cd-goal-id' ).val( goal_id );
+    $( '#input-cd-date-1' ).val( goal.json.date1 );
+    $( '#input-cd-date-2' ).val( goal.json.date2 );
+
+    $( '#modal-update-cd-values' ).modal( 'show' );
     
 }
 
@@ -336,11 +355,13 @@ $( function() {
 		
 		$.when( gh_storage.saveObject( {
 			name: $( '#input-goal-name' ).val(),
-			deadline: $( '#input-goal-deadline' ).val(),
 			category: $( '#input-goal-category' ).val(),
 			type: $( '#input-goal-type' ).val(),
 			parent: $( '#input-goal-parent' ).val(),
 			ordinal: $( '#input-goal-ordinal' ).val(),
+			max_value: $( '#input-goal-max-value' ).val(),
+			date1: $( '#input-goal-date-1' ).val(),
+			date2: $( '#input-goal-date-2' ).val(),
 			
 		},  ['goal'], updating_id === '' ? undefined : updating_id ) ).then( function() {
 			$( '#modal-create-goal' ).modal( 'hide' );
@@ -357,11 +378,13 @@ $( function() {
 
         $.when( gh_storage.saveObject( {
 			name: goal.json.name,
-			deadline: goal.json.deadline,
 			category: goal.json.category,
 			type: goal.json.type,
 			parent: goal.json.parent,
 			ordinal: goal.json.ordinal,
+			max_value: goal.json.max_value,
+			date1: goal.json.date1,
+			date2: goal.json.date2,
 			
             current_value: $( '#input-bool-current-value' ).val(),
         }, ['goal'], updating_id === '' ? undefined : updating_id ) ).then( function() {
@@ -378,13 +401,14 @@ $( function() {
 
         $.when( gh_storage.saveObject( {
             name: goal.json.name,
-			deadline: goal.json.deadline,
 			category: goal.json.category,
 			type: goal.json.type,
 			parent: goal.json.parent,
+			max_value: goal.json.max_value,
+			date1: goal.json.date1,
+			date2: goal.json.date2,
 			
             current_value: $( '#input-cumul-current-value' ).val(),
-            max_value: $( '#input-cumul-max-value' ).val(),
         }, ['goal'], updating_id === '' ? undefined : updating_id ) ).then( function() {
             $( '#modal-update-cumul-values' ).modal( 'hide' );
 
@@ -399,10 +423,12 @@ $( function() {
 
         $.when( gh_storage.saveObject( {
             name: goal.json.name,
-			deadline: goal.json.deadline,
 			category: goal.json.category,
 			type: goal.json.type,
 			parent: goal.json.parent,
+			max_value: goal.json.max_value,
+			date1: goal.json.date1,
+			date2: goal.json.date2,
 			
             current_value: $( '#input-perc-current-value' ).val(),
         }, ['goal'], updating_id === '' ? undefined : updating_id ) ).then( function() {
@@ -410,6 +436,73 @@ $( function() {
 
             location.reload();
         } );
+    } );
+	
+    $( "#btn-update-cd-values" ).click( function() {
+
+        var updating_id = $( '#updating-cd-goal-id' ).val();
+		var goal = goal_dict[ updating_id ];
+
+        $.when( gh_storage.saveObject( {
+            name: goal.json.name,
+			category: goal.json.category,
+			type: goal.json.type,
+			parent: goal.json.parent,
+			max_value: goal.json.max_value,
+            
+			date1: $( '#input-cd-date-1' ).val(),
+			date2: $( '#input-cd-date-2' ).val(),
+			
+        }, ['goal'], updating_id === '' ? undefined : updating_id ) ).then( function() {
+            $( '#modal-update-perc-values' ).modal( 'hide' );
+
+            location.reload();
+        } );
+    } );
+    
+    $( '#input-goal-type' ).change( function() {
+        
+        var goal_type = $( this ).val();
+        
+        if ( goal_type === 'group' ) {
+            
+            $( '#goal-max-value' ).hide();
+            $( '#goal-date-1' ).hide();
+            $( '#goal-date-2' ).hide();
+            
+        } else {
+            
+            $( '#goal-date-1' ).show();
+            $( '#goal-date-2' ).show();
+            
+        }
+        
+        if ( goal_type === 'boolean' || goal_type === 'percentage' ) {
+            
+            $( '#goal-max-value' ).hide();
+            $( '#goal-date-1 label' ).text( 'Start date (optional)' );
+            $( '#goal-date-2 label' ).text( 'Deadline date (optional)');
+            
+        } else if ( goal_type === 'cumulative' ) {
+            
+            $( '#goal-max-value' ).show();
+            $( '#goal-date-1 label' ).text( 'Start date (optional)' );
+            $( '#goal-date-2 label' ).text( 'Deadline date (optional)');
+            
+        } else if ( goal_type === 'cd' ) {
+            
+            $( '#goal-max-value' ).hide();
+            $( '#goal-date-1 label' ).text( 'Start date' );
+            $( '#goal-date-2 label' ).text( 'Goal date');
+            
+        } else if ( goal_type === 'revcd' ) {
+            
+            $( '#goal-max-value' ).hide();
+            $( '#goal-date-1 label' ).text( 'Start date' );
+            $( '#goal-date-2 label' ).text( 'Deadline date');
+            
+        }
+        
     } );
 	
 	function get_categories() {
@@ -456,6 +549,8 @@ $( function() {
                         break;
 
                     var goal = goals_remaining.pop();
+                    goal.date1 = Date.parse( goal.json.date1 );
+                    goal.date2 = Date.parse( goal.json.date2 );
 
                     if ( goal.json.parent !== '' && typeof( goal_dict[ goal.json.parent ] ) === 'undefined' ) {
 
@@ -507,6 +602,16 @@ $( function() {
                             return this.json.current_value === '100'; 
                         };
 
+                    else if ( goal.json.type == 'cd' )
+                        goal.completed = function() { 
+                            return Date.now() >= this.date2; 
+                        };
+
+                    else if ( goal.json.type == 'revcd' )
+                        goal.completed = function() {
+                            return Date.now() < this.date2; 
+                        };
+
                 }
 
                 for ( g_i in goal_dict )
@@ -527,7 +632,8 @@ $( function() {
 
                         else if ( goal.json.type == 'cumulative' )
                             $goal.append( '<a class="pull-right goal-status" onclick="update_cumul_values( $( this ).parent().data( \'goal-id\' ) );">' + ( goal.json.current_value ? goal.json.current_value : 0 ) + '/' + ( goal.json.max_value ? goal.json.max_value : 0 ) + '</a>' + 
-                                    '<div class="progress-wrapper pull-right"><span class="progress"><span class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: ' + ( 100 * goal.json.current_value / goal.json.max_value ) + '%"></span></span></div>' );
+                                    '<div class="progress-wrapper pull-right"><span class="progress"><span class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: ' + ( 100 * goal.json.current_value / goal.json.max_value ) + '%"></span></span></div>' + (
+                                    goal.json.date1 && goal.json.date2 ? '<div class="progress-wrapper pull-right deadline"><span class="progress"><span class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width: ' + Math.min( 100, 100 - ( date_diff( Date.now(), goal.date2 ) / date_diff( goal.date1, goal.date2 ) * 100 ) ) + '%"></span></span></div>' : '' ) );
 
                         else if ( goal.json.type == 'percentage' )
                             $goal.append( '<a class="pull-right goal-status" onclick="update_perc_values( $( this ).parent().data( \'goal-id\' ) );">' + ( goal.json.current_value ? goal.json.current_value : 0 ) + '%</a>' +
@@ -536,10 +642,17 @@ $( function() {
                         else if ( goal.json.type == 'boolean' )
                             $goal.append( '<a class="pull-right goal-status" onclick="update_bool_values( $( this ).parent().data( \'goal-id\' ) );">' + ( goal.completed() ? 'Completed!' : 'In Progress' ) + '</a>' );
 
+                        else if ( goal.json.type == 'cd' )
+                            $goal.append( '<a class="pull-right goal-status" onclick="update_cd_values( $( this ).parent().data( \'goal-id\' ) );">' + Math.max( 0, date_diff( Date.now(), goal.date2 ) ) + ' days remaining</a>' +
+                                    '<div class="progress-wrapper pull-right"><span class="progress"><span class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: ' + Math.min( 100, 100 - ( date_diff( Date.now(), goal.date2 ) / date_diff( goal.date1, goal.date2 ) * 100 ) ) + '%"></span></span></div>' );
+
+                        else if ( goal.json.type == 'revcd' )
+                            $goal.append( '<a class="pull-right goal-status" onclick="update_cd_values( $( this ).parent().data( \'goal-id\' ) );">' + ( date_diff( Date.now(), goal.date2 ) > 0 ? date_diff( Date.now(), goal.date2 ) + ' days remaining' : 'Contact now!' ) + '</a>' );
+                    
                         if ( goal.completed() )
                             $goal.addClass( 'success' );
 
-                        if ( goal.json.deadline !== '' ) {
+                        /*if ( goal.json.deadline !== '' ) {
                             if ( $goal.find( '.progress-wrapper' ).length <= 0 )
                                 $goal.append( '<div class="progress-wrapper pull-right"></div>' );
 
@@ -550,7 +663,7 @@ $( function() {
                             if ( $goal.find( '.progress-wrapper .progress' ).length > 1 )
                                 $goal.find( '.progress-wrapper' ).addClass( 'double' );
 
-                        }
+                        }*/
 
                         $parent_el.append( $goal );
 

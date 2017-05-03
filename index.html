@@ -27,7 +27,6 @@
         </div>
         
 		<div class="page-header">
-		  <h1>Long Term Goals</h1>
 		</div>
         
         <div id="credentials-error" class="alert alert-dismissible alert-danger">
@@ -80,18 +79,20 @@
 								<input class="form-control" id="input-goal-name" placeholder="Goal Name" type="text">
 							</div>
 						</div>
-					
-						<div class="form-group">
-							<label for="input-goal-deadline" class="control-label">Goal Deadline</label>
-							<div class="date">
-								<input class="form-control datepicker" id="input-goal-deadline" placeholder="" type="text">
-							</div>
-						</div>
 						
 						<div class="form-group">
 							<label for="input-goal-category" class="control-label">Category</label>
 							<div>
 								<select class="form-control" id="input-goal-category">
+								  <option value="">--------</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="input-goal-parent" class="control-label">Parent Goal</label>
+							<div>
+								<select class="form-control" id="input-goal-parent">
 								  <option value="">--------</option>
 								</select>
 							</div>
@@ -105,16 +106,30 @@
 								  <option value="cumulative">Cumulative</option>
 								  <option value="group">Group</option>
 								  <option value="percentage">Percentage</option>
+								  <option value="cd">Countdown</option>
+								  <option value="revcd">Reverse Countdown</option>
 								</select>
 							</div>
 						</div>
-						
-						<div class="form-group">
-							<label for="input-goal-parent" class="control-label">Parent Goal</label>
-							<div>
-								<select class="form-control" id="input-goal-parent">
-								  <option value="">--------</option>
-								</select>
+
+				        <div id="goal-max-value" class="form-group">
+                            <label for="input-cumul-max-value" class="control-label">Goal Value</label>
+                            <div>
+                                <input class="form-control" id="input-goal-max-value" placeholder="Goal Value" type="number" min=0>
+                            </div>
+                        </div>
+					
+						<div id="goal-date-1" class="form-group">
+							<label id="label-goal-date-1" for="input-goal-date-1" class="control-label"></label>
+							<div class="date">
+								<input class="form-control datepicker" id="input-goal-date-1" placeholder="" type="text">
+							</div>
+						</div>
+					
+						<div id="goal-date-2" class="form-group">
+							<label id="label-goal-date-2" for="input-goal-date-1" class="control-label"></label>
+							<div class="date">
+								<input class="form-control datepicker" id="input-goal-date-2" placeholder="" type="text">
 							</div>
 						</div>
 					
@@ -142,13 +157,6 @@
                             <label for="input-cumul-current-value" class="control-label">Current Value</label>
                             <div>
                                 <input class="form-control" id="input-cumul-current-value" placeholder="Current Value" type="number" min=0>
-                            </div>
-                        </div>
-
-				        <div class="form-group">
-                            <label for="input-cumul-max-value" class="control-label">Maximum Value</label>
-                            <div>
-                                <input class="form-control" id="input-cumul-max-value" placeholder="Maximum Value" type="number" min=0>
                             </div>
                         </div>
 
@@ -182,6 +190,40 @@
                     </div>
                     <div class="modal-footer">
                         <button id="btn-update-perc-values" type="button" class="btn btn-primary">Update</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-update-cd-values" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modallabel-update-cd-values">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modallabel-update-cd-values">Update Goal Values</a>
+                    </div>
+                    <div class="modal-body">
+
+                        <input id="updating-cd-goal-id" type="hidden" value="">
+
+                        <div class="form-group">
+							<label for="input-cd-date-1" class="control-label">Start Date</label>
+							<div class="date">
+								<input class="form-control datepicker" id="input-cd-date-1" placeholder="" type="text">
+							</div>
+                        </div>
+
+                        <div class="form-group">
+							<label for="input-cd-date-2" class="control-label">Goal Date</label>
+							<div class="date">
+								<input class="form-control datepicker" id="input-cd-date-2" placeholder="" type="text">
+							</div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btn-update-cd-values" type="button" class="btn btn-primary">Update</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>

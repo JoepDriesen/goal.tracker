@@ -78,10 +78,14 @@ a:hover .glyphicon  {
     margin: 0;
     width: 100%;
 }
+.list-group-item .deadline .progress {
+    height: 2px;
+    margin: 3px 130px 0 0;
+}
 .list-group-item span.pull-right,
 .list-group-item a.goal-status {
 	font-weight: bold;
-	width: 100px;
+	width: 130px;
 	text-align: right;
 }
 .list-group-item  a.btn-goal {
@@ -136,6 +140,9 @@ a:hover .glyphicon  {
 	clear: right;
 	margin: -13px 0 15px;
 }
+.success .progress-wrapper .progress {
+	display: none;
+}
 
 #clear-credentials {
     position: absolute;
@@ -157,4 +164,10 @@ a:hover .glyphicon  {
 
 #create-buttons {
     opacity: 0.7;
+}
+
+#goal-max-value,
+#goal-date-1,
+#goal-date-2 {
+    display: none;
 }
